@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blood Donation Form</title>
+    <link rel="stylesheet" type="text/css" href="static/styles.css">
+</head>
+<body>
+    <form action="donation_form" method="POST">
+        <h2>Blood Donation Form</h2>
+        <label for="sr_no">Sr_no</label>
+        <input type="number" id="sr_no" name="sr_no"   placeholder="02">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" pattern="[A-Za-z]+" placeholder="ex-Nilesh Kasar">
+        <br>
+        <label for="email" >Email:</label>
+        <input type="email" id="email" name="email" placeholder="...@gmail.com">
+        <br>
+        <label for="age">Age:</label>
+        <input type="number"  id="age" name="age" onchange="validateAge()" placeholder="22">
+        <br>
+        <select id="gender" name="gender">
+            <option id="Gmale">male</option>
+            <option id="Gfemale">female</option>
+        </select>
+        <br>
+        <br>
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" name="phone" maxlength="10" placeholder="9090909090"required>
+        <br>
+        <label class="blood_group" for="blood_group">Blood Group:</label>
+
+        <select id="blood_group" class="blood_group" name="blood_group" required>
+            <option value="">Select your blood group</option>
+            <option value="A_P">A+</option>
+            <option value="A_N">A-</option>
+            <option value="B_P">B+</option>
+            <option value="B_N">B-</option>
+            <option value="AB_P">AB+</option>
+            <option value="AB_N">AB-</option>
+            <option value="O_P">O+</option>
+            <option value="O_N">O-</option>
+        </select>
+        <br>
+        <br>
+        <button type="submit" value="Submit" class="back-button" onclick="myFunction()">Submit</button>
+
+         <a href="/" class="back-button">Home</a>
+        <br>
+
+    </form>
+
+
+    <script>
+
+        function myFunction() {
+  alert("Data Added Successfully !");
+}
+        function validateAge() {
+            const ageInput = document.getElementById("age");
+            const age = parseInt(ageInput.value);
+
+            if (isNaN(age) || age <= 0 || age > 100) {
+                alert("Please enter a valid age between 1 and 100.");
+                ageInput.value = "";
+                ageInput.focus();
+            }
+        }
+
+
+            const name = document.getElementById('name');
+            name.addEventListener('input', function()) {
+                if (!/^[A-Za-z]+$/.test(name.value)) {
+                    name.setCustomValidity('Only letters are allowed');
+                } else {
+                    name.setCustomValidity('');
+                }
+            });
+
+    </script>
+</body>
+</html>

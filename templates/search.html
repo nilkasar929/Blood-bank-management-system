@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     <link rel="stylesheet" type="text/css" href="static/styles.css">
+</head>
+<body>
+
+    {% block content %}
+    <h1 style="color:red">Donors list</h1>
+
+
+
+    <form method="POST" action="{{ url_for('search') }}">
+      <input type="text" name="query" placeholder="Search for donors name..." required>
+      <button class="back-button" type="submit">Search</button>
+         <a href="/" class="back-button">Home</a>
+      <br> <br>
+    </form>
+
+
+    {% if results %}
+    <h2>Search Results</h2>
+    <table>
+      <thead>
+      <tr>
+        <th >donation sr_no</th>
+          <th>donation Name</th>
+          <th>Email</th>
+          <th>Age</th>
+          <th>Phone No.</th>
+          <th>Gender</th>
+          <th>Blood Group</th>
+
+      </tr>
+      </thead>
+
+      <tbody>
+      <!-- Loop through each search result is displayed -->
+      {% for donation in results %}
+        <tr>
+            <td>{{ donation.sr_no }}</td>
+            <td>{{ donation.name }}</td>
+            <td>{{ donation.email }}</td>
+            <td>{{ donation.age }}</td>
+            <td>{{ donation.phone }}</td>
+            <td>{{ donation.gender }}</td>
+            <td>{{ donation.blood_group }}</td>
+
+          <td>
+
+            <form action="{{ url_for('update', sr_no=donation.sr_no) }}" method="POST">
+            <button >Update</button>
+            </form>
+
+
+            <form action="{{ url_for('delete', sr_no=donation.sr_no) }}" method="POST">
+                <button type="submit" class="btn btn-danger" onclick="delete1()">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+
+
+      <script>
+            function delete1(){
+                alert("Deleted successfully");
+            }
+ </script>
+      </tbody>
+
+    </table><br><br>
+
+    {% endif %}
+
+    {% endblock %} <!-- End of 'content' block -->
+
+
+
+</body>
+</html>

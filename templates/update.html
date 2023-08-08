@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update donation Information</title>
+    <link rel="stylesheet" type="text/css" href="static/styles.css">
+    <style>
+             form {
+        margin:auto;
+        font-family: Arial, sans-serif;
+        width:500px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      input[type="tel"],
+      input[type="email"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+      }
+
+      .Bstyle {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 90px;
+        text-decoration: none; <!--to remove the underline of cancel -->
+        }
+
+        .Bstyle:hover {
+        background-color: #2E8B57;
+      }
+
+
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+
+      input[type="submit"]:active {
+        background-color: #3e8e41;
+      }
+
+      input[type="submit"]:focus {
+        outline: none;
+      }
+
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+
+
+
+      input[type=text],input[type=number] {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #4CAF50;
+        border-radius: 4px;
+      }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 align="center" style="color:red">Blood Donation Form</h1>
+        <h2 align="center" style="color: #4CAF50">Update donation Information</h2>
+
+        <!-- Form to update donation information -->
+        <form action="{{ url_for('update', sr_no=donation.sr_no) }}" method="post">
+           <label for="sr_no">Sr_no:</label>
+            <input type="number" id="sr_no" name="sr_no" placeholder="00" value="{{ donation.sr_no }}"><br>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Ex-Nilesh Kasar" value="{{ donation.name }}"><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="...@gmail.com" value="{{ donation.email }}"><br>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" placeholder="22" onchange="validateAge()" value="{{ donation.age }}"><br>
+
+            <label>Gender:</label>
+            <input type="radio" id="male" name="gender" value="male" required >
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female" required >
+            <label for="female">Female</label>
+
+
+            <br><br>
+
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone" placeholder="9090909090" required value="{{ donation.phone }}"><br>
+
+            <label for="blood_group">Blood Group:</label>
+            <select id="blood_group" name="blood_group" required>
+                <option value="">Select your blood group</option>
+                <option value="A_P" >A+</option>
+                <option value="A_N">A-</option>
+                <option value="B_P">B+</option>
+                <option value="B_N">B-</option>
+                <option value="AB_P">AB+</option>
+                <option value="AB_N">AB-</option>
+            <option value="O_P">O+</option>
+            <option value="O_N">O-</option>
+                <!-- Add more options here for other blood groups -->
+            </select><br><br>
+
+
+            <!-- Submit button -->
+            <button type="submit" class="Bstyle" onclick="update1()">Update</button>
+             <a href="/search">
+            <button type="button" class="Bstyle">Back</button>
+</a>
+                <a href="/">
+            <button type="button" class="Bstyle">Home</button>
+</a>
+            <!-- Back button to go to the home page -->
+
+
+
+        </form>
+        <script>
+            function update1(){
+            alert("Updated successfully");
+            }
+              function validateAge() {
+            const ageInput = document.getElementById("age");
+            const age = parseInt(ageInput.value);
+
+            if (isNaN(age) || age <= 0 || age > 100) {
+                alert("Please enter a valid age between 1 and 100.");
+                ageInput.value = "";
+                ageInput.focus();
+            }
+        }
+        </script>
+    </div>
+
+</body>
+</html>
