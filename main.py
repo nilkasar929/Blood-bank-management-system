@@ -1,77 +1,90 @@
+import cx_Oracle
 from flask import Flask, render_template,  request, redirect
 from flask import url_for, session, make_response
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'oracle://hr:hr@127.0.0.1:1521/xe'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'oracle://hr:root@127.0.0.1:1521/xe'
 db = SQLAlchemy(app)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Set your Oracle database credentials here
+db_username = 'hr'
+db_password = 'root'
+db_host = '127.0.0.1'
+db_port = '1521'
+db_service = 'xe'
+
+# Configure the secret key for session
+app.secret_key = 'your_secret_key'
+
+def connect_to_db():
+    dsn = cx_Oracle.makedsn(db_host, db_port, service_name=db_service)
+    connection = cx_Oracle.connect(db_username, db_password, dsn)
+    return connection
+
+class Users(db.Model):
+    username = db.Column(db.String(80), primary_key=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        connection = connect_to_db()
+        cursor = connection.cursor()
+
+        query = "SELECT * FROM Users WHERE username = :username AND password = :password"
+        cursor.execute(query, {'username': username, 'password': password})
+        user = cursor.fetchone()
+
+        cursor.close()
+        connection.close()
+
+        if user:
+            session['username'] = user[0]
+            return redirect(url_for('dashboard'))
+        else:
+            return render_template('login.html', message='Invalid credentials')
+
+    return render_template('login.html', message='')
+
+
+@app.route('/signup', methods=['GET'])
+def signup():
+    return render_template('signup.html')
+
+@app.route('/register', methods=['POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+
+        users = Users(username= username, email=email,password=password)
+        db.create_all()
+        db.session.add(users)
+        db.session.commit()
+
+        return redirect(url_for('login'))
+
+
+@app.route('/dashboard')
+def dashboard():
+    if 'username' in session:
+        return render_template('index.html')
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('login'))
 
 
 class Donation(db.Model):
