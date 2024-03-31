@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'oracle://hr:root@127.0.0.1:1521/xe'
 db = SQLAlchemy(app)
 
-<<<<<<< HEAD
+
 # Set your Oracle database credentials here
 db_username = 'hr'
 db_password = 'root'
@@ -55,7 +55,6 @@ def login():
 
     return render_template('login.html', message='')
 
-
 @app.route('/signup', methods=['GET'])
 def signup():
     return render_template('signup.html')
@@ -67,12 +66,21 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
-        users = Users(username= username, email=email,password=password)
-        db.create_all()
-        db.session.add(users)
-        db.session.commit()
 
-        return redirect(url_for('login'))
+        # Validate form inputs
+        if not username or not email or not password:
+            return "Error: Please fill out all fields."
+        
+        # Attempt to create a new user
+        new_user = Users(username=username, email=email, password=password)
+        
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect(url_for('login'))  # Redirect to login page after successful registration
+        except Exception as e:
+            db.session.rollback()  # Rollback the session in case of any error
+            return "Error: {}".format(str(e))
 
 
 @app.route('/dashboard')
@@ -88,8 +96,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-=======
->>>>>>> ca5b1050ed8c08206c1b7b1885d9f73f1bdca4fc
+
 class Donation(db.Model):
     sr_no = db.Column(db.Integer(), primary_key=True, nullable=False)
     name = db.Column(db.String(30), unique = False, nullable = False)

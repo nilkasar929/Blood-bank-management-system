@@ -5,10 +5,10 @@
 <style>
     .box{
         margin-top: 80px;
-        background-color: rgb(104, 133, 186);
+        background-color: rgb(255, 255, 255);
         width: 300px;
         height: 100%;
-        border: 1px solid rgb(100, 88, 88);
+        border: 1px solid rgb(245, 0, 0);
         border-radius: 20px;
         align-items: center;
         padding: 10px;
@@ -82,15 +82,16 @@
     <h2>Sign Up</h2>
 
     <form method="POST" action="/register">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username"><br><br>
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br><br>
+       
+        <input type="text" id="username" name="username" placeholder="Enter Username" required><br><br>
+        
+        <input type="email" id="email" name="email" placeholder="Enter your email" required><br><br>
+        
+        <input type="password" id="password" name="password" placeholder="Enter password" required><br><br>
         <input type="submit" value="Sign Up">
     </form>
 </div>
 </center>
+
 </body>
 </html>
