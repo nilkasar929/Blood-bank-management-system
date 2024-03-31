@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'oracle://hr:root@127.0.0.1:1521/xe'
 db = SQLAlchemy(app)
 
+<<<<<<< HEAD
 # Set your Oracle database credentials here
 db_username = 'hr'
 db_password = 'root'
@@ -87,6 +88,8 @@ def logout():
     return redirect(url_for('login'))
 
 
+=======
+>>>>>>> ca5b1050ed8c08206c1b7b1885d9f73f1bdca4fc
 class Donation(db.Model):
     sr_no = db.Column(db.Integer(), primary_key=True, nullable=False)
     name = db.Column(db.String(30), unique = False, nullable = False)
